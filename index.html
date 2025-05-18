@@ -41,12 +41,101 @@
 		">
 			<h3>Informações</h3>
 			<div id="info-content">Clique em um elemento do mapa para ver os atributos.</div>
-			<p><strong>Descubra o que são os números nas informações complementares do documento a seguir:</strong>
+			<br><br>
+			<div id="info-content">Arquivos rasters (Mapa de Complexidade Socioambiental) podem demorar para carregar.</div>
+			<br><br>
+			<p><strong>Informações complementares no documento a seguir:</strong>
 <a href="data/InfoComplementares.pdf" download style="color: blue; text-decoration: underline;">
   📄 Baixar InfoComplementares (PDF)
 </a>
 		</div>
-		
+		<!-- Botão para mostrar/ocultar legenda -->
+		<button id="botao-legenda" style="
+		  position: fixed;
+		  bottom: 00px; /* ajusta a altura acima da legenda */
+		  right: 20px;
+		  z-index: 1001;
+		  padding: 8px 12px;
+		  border: none;
+		  background-color: #004080;
+		  color: white;
+		  border-radius: 6px;
+		  cursor: pointer;
+		  font-family: sans-serif;
+		  font-size: 14px;
+		  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+		">
+		  Mostrar legenda de MCA Classificado
+		</button>
+
+		<!-- Legenda flutuante no canto inferior direito -->
+		<div id="legenda" style="
+		  position: fixed;
+		  bottom: 20px;
+		  right: 20px;
+		  background-color: white;
+		  padding: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 8px;
+		  font-family: sans-serif;
+		  font-size: 14px;
+		  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+		  display: none;
+		  z-index: 1000;
+		  max-width: 220px;
+		">
+		  <!-- Legenda por categorias (quadradinhos) -->
+		  <div style="font-weight: bold; margin-bottom: 8px;">Legenda de Complexidade MCA Classificado</div>
+		  <div><span style="display:inline-block;width:20px;height:20px;background-color:#000000ff;margin-right:8px;vertical-align:middle;"></span> Baixa complexidade</div>
+		  <div><span style="display:inline-block;width:20px;height:20px;background-color:#545454ff;margin-right:8px;vertical-align:middle;"></span> Média complexidade</div>
+		  <div><span style="display:inline-block;width:20px;height:20px;background-color:#abababff;margin-right:8px;vertical-align:middle;"></span> Alta complexidade</div>
+		  <div><span style="display:inline-block;width:20px;height:20px;background-color:#ffffffff;border:1px solid #ccc;margin-right:8px;vertical-align:middle;"></span> Muito alta complexidade</div>
+
+		  <!-- Espaçamento -->
+		  <div style="height: 12px;"></div>
+
+		  <!-- Legenda de barra vertical com gradiente -->
+		  <div style="font-weight: bold; margin-bottom: 8px;">Legenda de Mapa de Complexidade Socioambiental (MCA)</div>
+		  <div style="display: flex; align-items: center;">
+			<!-- Barra gradiente -->
+			<div style="
+			  width: 20px;
+			  height: 160px;
+			  background: linear-gradient(to top, #ffeee6ff, #66010dff);
+			  border: 1px solid #ccc;
+			  margin-right: 10px;
+			"></div>
+
+			<!-- Escala numérica -->
+			<div style="height: 160px; display: flex; flex-direction: column; justify-content: space-between; font-size: 12px;">
+			  <span>8</span>
+			  <span>7</span>
+			  <span>6</span>
+			  <span>5</span>
+			  <span>4</span>
+			  <span>3</span>
+			  <span>2</span>
+			  <span>1</span>
+			  <span>0</span>
+			</div>
+		  </div>
+		</div>
+
+		<script>
+		  const botao = document.getElementById('botao-legenda');
+		  const legenda = document.getElementById('legenda');
+
+		  botao.addEventListener('click', () => {
+			if (legenda.style.display === 'none') {
+			  legenda.style.display = 'block';
+			  botao.textContent = 'Ocultar legenda';
+			} else {
+			  legenda.style.display = 'none';
+			  botao.textContent = 'Mostrar legenda';
+			}
+		  });
+		</script>
+
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -98,6 +187,7 @@
          }
          return tempDiv.innerHTML;
         }
+		
         // add class to format popup if it contains media
 		function addClassToPopupIfMedia(content, popup) {
 			var tempDiv = document.createElement('div');
